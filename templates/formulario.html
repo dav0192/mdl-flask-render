@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificador Iris-Species</title>
+    <script>
+        function clasificarSpecies(){
+            let plength = parseFloat(document.getElementById("plength").value);
+            let pwidth = parseFloat(document.getElementById("pwidth").value);
+            let res = document.getElementById("resultado");
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `plength=${plength}&pwidth=${pwidth}`,
+            })
+            .then(response => response.json())
+            .then(data =>{
+                if(data.error){
+                    res.innerHTML = `Error: ${data.error}`;
+                }else{
+                    res.innerHTML = `La especie de Iris es: ${data.specie}`;
+                }
+            })
+            .catch(error => {
+                res.innerHTML = 'Error en la solicitud';
+                console.log("Error", error);
+            });
+        }
+
+        function principal(){
+            const btnSpecies = document.getElementById("enviar");
+            btnSpecies.addEventListener("click", clasificarSpecies);
+        }
+
+        document.addEventListener("DOMContentLoaded", principal);
+    </script>
+</head>
+<body>
+    <h1>Clasificador de Iris Species</h1>
+    <form action="" id="form" class="form">
+        <label for="plength">Longitud del pétalo (cm)</label><br>
+        <input type="number" name="plength" id="plength" class="plength" value="0.0" step="0.1"><br><br>
+
+        <label for="pwidth">Ancho del pétalo (cm)</label><br>
+        <input type="number" name="pwidth" id="pwidth" class="pwdith" value="0.0" step="0.1"><br><br>
+
+        <button type="button" id="enviar" class="enviar">Enviar</button><br><br>
+
+        <p id="resultado">No se han ingresado datos</p>
+    </form>
+    <p>David Domínguez Reyes - 20191134 - 9° "B" IDGS</p>
+</body>
+</html>
