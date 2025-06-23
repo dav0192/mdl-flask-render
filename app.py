@@ -10,7 +10,7 @@ app = Flask(__name__);
 logging.basicConfig(level = logging.DEBUG);
 
 # Cargando el modelo entrenado
-model = joblib.load('modelo_iris_species.pkl');
+model = joblib.load('model.pkl');
 app.logger.debug('Modelo cargado correctamente.');
 
 # Raiz de la API
